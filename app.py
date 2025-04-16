@@ -1,3 +1,8 @@
+from flask import Flask, render_template_string
+import requests
+
+app = Flask(__name__)
+
 @app.route('/')
 def home():
     url = "https://gist.githubusercontent.com/reroes/502d11c95f1f8a17d300ece914464c57/raw/872172ebb60e22e95baf8f50e2472551f49311ff/gistfile1.txt"
@@ -12,11 +17,9 @@ def home():
     for line in lines[1:]:  # Saltar encabezado
         parts = line.strip().split(",")
 
-        # Validar que tenga al menos 5 columnas y que la primera columna no esté vacía
         if len(parts) < 5 or not parts[0]:
             continue
 
-        # Validar que el primer carácter del ID esté entre los deseados
         if parts[0][0] in ['3', '4', '5', '7']:
             people.append({
                 "ID": parts[0],
@@ -27,8 +30,8 @@ def home():
             })
 
     html = '''
-    <h1 style="text-align:center;">Personas con ID que comienza en 3, 4, 5 o 7</h1>
-    <table border="1" cellpadding="5" style="margin:auto;">
+    <h1>Personas con ID que comienza en 3, 4, 5 o 7</h1>
+    <table>
         <tr>
             <th>ID</th>
             <th>Nombre</th>
@@ -48,3 +51,6 @@ def home():
     </table>
     '''
     return render_template_string(html, people=people)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
