@@ -15,7 +15,7 @@ def home():
     people = []
 
     for line in lines[1:]:  # Saltar encabezado
-        parts = line.strip().split(",")
+        parts = line.strip().split(";")  # <-- CORREGIDO
 
         if len(parts) < 5 or not parts[0]:
             continue
