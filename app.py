@@ -13,7 +13,7 @@ def home():
     
     # Verificar si la respuesta fue exitosa
     if response.status_code != 200:
-        return "<p>Error al obtener el archivo desde la URL.</p>"
+        return "<p>Error al obtener el archivo desde la URL Publica.</p>"
 
     # Procesar texto del archivo
     lines = response.text.strip().split("\n")
