@@ -6,35 +6,16 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     url = "https://gist.githubusercontent.com/reroes/502d11c95f1f8a17d300ece914464c57/raw/872172ebb60e22e95baf8f50e2472551f49311ff/gistfile1.txt"
-    response = requests.get(url)
+    data = requests.get(url).text.strip().split("\n")[1:]  # Omitir cabecera
 
-    lines = response.text.strip().split("\n")
-    people = []
-
-    for line in lines[1:]:  # Saltar la cabecera
-        parts = line.strip().split("|")
-
-        if len(parts) < 5 or not parts[0]:
-            continue
-
-        if parts[0][0] in ['3', '4', '5', '7']:
-            people.append({
-                "ID": parts[0],
-                "Nombre": parts[1],
-                "Apellido": parts[2],
-                "País": parts[3],
-                "Dirección": parts[4]
-            })
+    people = [
+        {"ID": p[0], "Nombre": p[1], "Apellido": p[2], "País": p[3], "Dirección": p[4]}
+        for line in data if (p := line.strip().split("|")) and p[0][:1] in "3457"
+    ]
 
     html = '''
     <table border="1" cellpadding="5">
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>País</th>
-            <th>Dirección</th>
-        </tr>
+        <tr><th>ID</th><th>Nombre</th><th>Apellido</th><th>País</th><th>Dirección</th></tr>
         {% for person in people %}
         <tr>
             <td>{{ person.ID }}</td>
