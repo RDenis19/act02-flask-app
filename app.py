@@ -14,8 +14,8 @@ def home():
     lines = response.text.strip().split("\n")
     people = []
 
-    for line in lines[1:]:  # Saltar encabezado
-        parts = line.strip().split(";")  # <-- CORREGIDO
+    for line in lines[1:]:  # Saltar la cabecera
+        parts = line.strip().split("|")
 
         if len(parts) < 5 or not parts[0]:
             continue
@@ -25,27 +25,27 @@ def home():
                 "ID": parts[0],
                 "Nombre": parts[1],
                 "Apellido": parts[2],
-                "Género": parts[3],
-                "Edad": parts[4]
+                "País": parts[3],
+                "Dirección": parts[4]
             })
 
     html = '''
     <h1>Personas con ID que comienza en 3, 4, 5 o 7</h1>
-    <table>
+    <table border="1" cellpadding="5">
         <tr>
             <th>ID</th>
             <th>Nombre</th>
             <th>Apellido</th>
-            <th>Género</th>
-            <th>Edad</th>
+            <th>País</th>
+            <th>Dirección</th>
         </tr>
         {% for person in people %}
         <tr>
             <td>{{ person.ID }}</td>
             <td>{{ person.Nombre }}</td>
             <td>{{ person.Apellido }}</td>
-            <td>{{ person.Género }}</td>
-            <td>{{ person.Edad }}</td>
+            <td>{{ person.País }}</td>
+            <td>{{ person.Dirección }}</td>
         </tr>
         {% endfor %}
     </table>
