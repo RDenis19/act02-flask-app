@@ -11,8 +11,12 @@ def home():
 
     for line in lines[1:]:  # Saltar encabezado
         parts = line.strip().split(",")
-        if len(parts) < 5:  # Saltar líneas incompletas
+
+        # Validar que tenga al menos 5 columnas y que la primera columna no esté vacía
+        if len(parts) < 5 or not parts[0]:
             continue
+
+        # Validar que el primer carácter del ID esté entre los deseados
         if parts[0][0] in ['3', '4', '5', '7']:
             people.append({
                 "ID": parts[0],
